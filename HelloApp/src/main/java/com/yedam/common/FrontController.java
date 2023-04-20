@@ -11,6 +11,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.yedam.notice.control.AddNoticeControl;
+import com.yedam.notice.control.DeleteNoticeControl;
+import com.yedam.notice.control.GetNoticeControl;
+import com.yedam.notice.control.ModifyNoticeControl;
+import com.yedam.notice.control.NoticeAddForm;
 import com.yedam.notice.control.NoticeListControl;
 
 public class FrontController extends HttpServlet{
@@ -27,6 +32,13 @@ public class FrontController extends HttpServlet{
 		
 		// 공지사항
 		map.put("/noticeList.do", new NoticeListControl());
+		
+		//공지사항 등록 페이지
+		map.put("/noticeAddForm.do", new NoticeAddForm());
+		map.put("/addNotice.do", new AddNoticeControl());
+		map.put("/getNotice.do", new GetNoticeControl());
+		map.put("/modifyNotice.do", new ModifyNoticeControl());
+		map.put("/deleteNotice.do", new DeleteNoticeControl());
 	}
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -40,6 +52,11 @@ public class FrontController extends HttpServlet{
 		Control control = map.get(path);
 		String viewPage = control.execute(req, resp);
 		System.out.println(viewPage);
+		
+		if(viewPage.endsWith(".do")) {
+			resp.sendRedirect(viewPage);
+			return;		//메소드종료
+		} 
 		
 		//페이지 재지정
 		RequestDispatcher rd = req.getRequestDispatcher(viewPage);

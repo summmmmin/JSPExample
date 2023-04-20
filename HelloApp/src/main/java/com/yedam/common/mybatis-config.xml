@@ -6,6 +6,7 @@
 	<properties resource="com/yedam/common/db.properties"></properties>
 	<settings>
 		<setting name="mapUnderscoreToCamelCase" value="true" />
+		<setting name="jdbcTypeForNull" value="NULL"/>
 	</settings>
 	<typeAliases>
 		<typeAlias alias="employee" type="com.yedam.domain.Employee" />

@@ -20,11 +20,11 @@
   
   <!-- 공지사항 관련. -->
   <select id="noticeList" resultType="notice">
-    select * from tbl_notice order by 1 desc
+    select * from tbl_notice order by 1
   </select>
   <insert id="insertNotice" parameterType="notice">
-    insert into tbl_notice (notice_id, notice_writer, notice_title, notice_subject)
-	values(notice_seq.nextval, #{noticeWriter}, #{noticeTitle}, #{noticeSubject})
+    insert into tbl_notice (notice_id, notice_writer, notice_title, notice_subject, attach_file)
+	values(notice_seq.nextval, #{noticeWriter}, #{noticeTitle}, #{noticeSubject}, #{attachFile})
   </insert>
   <update id="updateNotice" parameterType="notice">
     update tbl_notice
@@ -39,4 +39,8 @@
   <select id="searchNotice" resultType="notice" parameterType="int">
     select * from tbl_notice where notice_id=#{noticeId}
   </select>
+  
+  <update id="updateCount" parameterType="int">
+    update tbl_notice set hit_count=hit_count+1 where notice_id=#{noticeId}
+  </update>
 </mapper>
