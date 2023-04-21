@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<div id="show">
+  <div id="child">
+    <p>hello</p>
+  </div>
+  <ul>
+    <li>apple</li>
+    <li>banana</li>
+  </ul>
+</div>
+<script>
+  let child = document.getElementById('child');
+  console.log(child);
+  console.log(child.parentElement.parentElement);
+  console.log(child.nextElementSibling); //element는 태그기준
+  console.log(child.nextSibling); //node기준
+  let elem = document.querySelector('li');
+  elem.innerText = '사과';
+  console.log(elem.innerText);
+  elem = document.querySelector('li:nth-of-type(2)');
+  elem.addEventListener('click', function(){
+	alert(elem.innerText);  
+  });
+  console.log(elem.innerText);
+  
+  let name = "홍길동";
+  console.log(name);
+  
+  let num = 100;
+  num = "apple";
+  num = 100 > 20;
+  
+  console.log(typeof num);
+  
+  let obj = {}
+  obj.id = 'user01';
+  obj.name = 'Hong';
+  obj.hobbies = ['reading', 'sleeping', 'eating'];
+  
+  for(let hobby of obj.hobbies){
+	  console.log(hobby)
+  }
+  //console.clear();  //로그 지우기
+  for(let prop in obj){
+	  console.log(prop, obj[prop]);
+  }
+  
+  //Document Object Model
+  console.log(window.document.children[0].children);
+  
+</script>
+</body>
+</html>

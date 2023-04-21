@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
                 <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
                     <div class="container-fluid">
                         <button class="btn btn-primary" id="sidebarToggle">Toggle Menu</button>
@@ -9,13 +10,22 @@
                                 <li class="nav-item active"><a class="nav-link" href="#!">Home</a></li>
                                 <li class="nav-item"><a class="nav-link" href="#!">Link</a></li>
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+                                  <c:choose>
+                                    <c:when test="${id != null }">
+                                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">${id}</a>
+                                    </c:when>
+                                    <c:otherwise>
+                                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">${'Guest' }</a>
+                                    </c:otherwise>
+                                  </c:choose>  
+                                    <c:if test="${id != null }">
                                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="#!">Action</a>
-                                        <a class="dropdown-item" href="#!">Another action</a>
+                                        <a class="dropdown-item" href="modifyMember.do?email=${id }">회원정보수정</a>
+                                        <a class="dropdown-item" href="#!">회원정보</a>
                                         <div class="dropdown-divider"></div>
                                         <a class="dropdown-item" href="#!">Something else here</a>
                                     </div>
+                                    </c:if>
                                 </li>
                             </ul>
                         </div>

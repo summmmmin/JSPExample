@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+  <input type="text" id="fruit">
+  <button id="addBtn">추가</button>
+  
+  <ul id="list">
+    <li>Apple</li>
+    <li>mango</li>
+    <li>banana</li>
+    <li>melon</li>
+  </ul>
+  <input type="text" name="userId">
+  <input type="text" name="userName">
+  <button id="tBtn">추가</button>
+  <table id="tbl">
+    <tbody id="tlist">
+      <tr>
+        <td>user01</td>
+        <td>Hong</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <script>
+    document.getElementById('addBtn').addEventListener('click', function(){
+    	let val = document.getElementById('fruit').value;
+    	let li = document.createElement('li');		//<li></li>만들어줌
+    	li.innerText = val;
+    	document.getElementById('list').append(li);
+    	
+    });
+    // 2개 값을 등록
+    // id값 tBtn에 click 등록
+    // function의 정의내용: 1.tr생성 2.id를담을td생성 3.td를tr하위요소로 부착
+    //							2.name을 담을 td생성  3.td를 tr하위요소로 부착
+    //					tr을 tlist의 하위에 부착
+    document.getElementById('tBtn').addEventListener('click', function(){
+    	let tr = document.createElement('tr');
+    	let td = document.createElement('td');
+    	let val1 = document.querySelector('input[name="userId"]').value;
+    	let val2 = document.querySelector('input[name="userName"]').value;
+    	td.innerText = val1;
+    	tr.append(td);
+    	td = document.createElement('td');
+    	td.innerText = val2;
+    	tr.append(td);
+    	document.getElementById('tlist').append(tr);
+    });
+    
+    document.querySelectorAll('li').forEach(item => {
+    	item.addEventListener('click',function(){
+    		item.remove();
+    	})
+    })
+  </script>
+</body>
+</html>

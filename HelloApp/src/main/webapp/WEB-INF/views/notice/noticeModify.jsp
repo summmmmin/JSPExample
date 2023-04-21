@@ -31,17 +31,8 @@
     <tr>
       <td colspan="2" align="center">
         <button type="submit">저장</button>
-        <button type="button" >삭제</button>
+        <button type="button" onclick="location.href='deleteNotice.do?nid=${noticeInfo.noticeId}'">삭제</button>
       </td>
     </tr>
   </table>
 </form>
-
-<script>
-	let btn = document.querySelector('input[type="button"]');
-	btn.onclick = function(){
-		let frm = document.querySelector('form');
-		frm.action = "deleteNotice.do";
-		frm.submit();	//
-	}
-</script>

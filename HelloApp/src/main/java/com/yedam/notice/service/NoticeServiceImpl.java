@@ -14,8 +14,9 @@ public class NoticeServiceImpl implements NoticeService{
 	NoticeMapper mapper = session.getMapper(NoticeMapper.class);
 	
 	@Override
-	public List<NoticeVO> noticeList() {
-		return mapper.noticeList();
+	public List<NoticeVO> noticeList(int page) {
+//		return mapper.noticeList();
+		return mapper.noticeWithPage(page);
 	}
 
 	@Override
@@ -40,4 +41,8 @@ public class NoticeServiceImpl implements NoticeService{
 		return mapper.searchNotice(noticeId);
 	}
 	
+	@Override
+	public int totalCount() {
+		return mapper.getCount();
+	}
 }

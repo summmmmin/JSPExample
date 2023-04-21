@@ -11,6 +11,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.yedam.member.control.LoginControl;
+import com.yedam.member.control.LoginFormControl;
+import com.yedam.member.control.LogoutControl;
+import com.yedam.member.control.ModifyMemberControl;
 import com.yedam.notice.control.AddNoticeControl;
 import com.yedam.notice.control.DeleteNoticeControl;
 import com.yedam.notice.control.GetNoticeControl;
@@ -39,6 +43,12 @@ public class FrontController extends HttpServlet{
 		map.put("/getNotice.do", new GetNoticeControl());
 		map.put("/modifyNotice.do", new ModifyNoticeControl());
 		map.put("/deleteNotice.do", new DeleteNoticeControl());
+		
+		//회원관리
+		map.put("/loginForm.do", new LoginFormControl());
+		map.put("/login.do", new LoginControl());
+		map.put("/logout.do", new LogoutControl());
+		map.put("/modifyMember.do", new ModifyMemberControl());
 	}
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
