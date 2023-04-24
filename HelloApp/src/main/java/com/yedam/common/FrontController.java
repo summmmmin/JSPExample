@@ -16,11 +16,13 @@ import com.yedam.member.control.LoginFormControl;
 import com.yedam.member.control.LogoutControl;
 import com.yedam.member.control.ModifyMemberControl;
 import com.yedam.notice.control.AddNoticeControl;
+import com.yedam.notice.control.AddReplyControl;
 import com.yedam.notice.control.DeleteNoticeControl;
 import com.yedam.notice.control.GetNoticeControl;
 import com.yedam.notice.control.ModifyNoticeControl;
 import com.yedam.notice.control.NoticeAddForm;
 import com.yedam.notice.control.NoticeListControl;
+import com.yedam.notice.control.ReplyListControl;
 
 public class FrontController extends HttpServlet{
 	private Map<String, Control> map;
@@ -49,6 +51,11 @@ public class FrontController extends HttpServlet{
 		map.put("/login.do", new LoginControl());
 		map.put("/logout.do", new LogoutControl());
 		map.put("/modifyMember.do", new ModifyMemberControl());
+		
+		// 댓글정보
+		map.put("/replyList.do", new ReplyListControl());
+		map.put("/addReply.do", new AddReplyControl());
+		map.put("/removeReply.do", new RemoveReplyControl());
 	}
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -67,6 +74,11 @@ public class FrontController extends HttpServlet{
 			resp.sendRedirect(viewPage);
 			return;		//메소드종료
 		} 
+		if(viewPage.endsWith(".json")) {
+			resp.setContentType("text/json;charset=UTF-8");
+			resp.getWriter().print(viewPage.substring(0, viewPage.length()-5));
+			return;
+		}
 		
 		//페이지 재지정
 		RequestDispatcher rd = req.getRequestDispatcher(viewPage);
