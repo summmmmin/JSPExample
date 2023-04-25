@@ -8,4 +8,6 @@ public interface ReplyService {
 	public List<ReplyVO> getReplies(int noticeId);
 	public boolean addReply(ReplyVO vo);
 	public boolean removeReply(int replyId);
+	public boolean modifyReply(ReplyVO vo);
+	public ReplyVO getReplyId(int replyId);
 }

@@ -1,4 +1,4 @@
-package com.yedam.common;
+package com.yedam.notice.control;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -10,31 +10,34 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.yedam.common.Control;
+import com.yedam.notice.domain.ReplyVO;
 import com.yedam.notice.service.ReplyService;
 import com.yedam.notice.service.ReplyServiceImpl;
 
-public class RemoveReplyControl implements Control {
+public class ModifyReplyControl implements Control {
 
 	@Override
 	public String execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String id = req.getParameter("rid");
+		String rid = req.getParameter("rid");
+		String reply = req.getParameter("reply");
+		
+		ReplyVO vo = new ReplyVO();
+		vo.setReplyId(Integer.parseInt(rid));
+		vo.setReply(reply);
 		
 		ReplyService service = new ReplyServiceImpl();
-		boolean result = service.removeReply(Integer.parseInt(id));
+		boolean result = service.modifyReply(vo);
 		
 		String json = "";
 		Map<String, Object> map = new HashMap<>();
 		
 		if(result) {
-			// {"retCode":"Success"}
-//			json = "{\"retCode\":\"Success\"}";
-			// {"retCode":"Success", "data":vo}
+			vo= service.getReplyId(vo.getReplyId());	
 			map.put("retCode", "Success");
-			map.put("data", id);
+			map.put("data", vo);
 			
 		}else {
-			// {"retCode":"Fail"}
-//			json = "{\"retCode\":\"Fail\"}";
 			map.put("retCode", "Fail");
 		}
 		
@@ -42,6 +45,7 @@ public class RemoveReplyControl implements Control {
 		json = gson.toJson(map);
 		
 		return json + ".json";
+	
 	}
 
 }

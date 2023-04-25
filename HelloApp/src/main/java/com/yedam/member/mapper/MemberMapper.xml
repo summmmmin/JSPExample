@@ -12,4 +12,12 @@
   <update id="updateMember" parameterType="notice">
     update members set password = #{password}, phone = #{phone}, address = #{address} where email=#{email}
   </update>
+  
+  <select id="memberByDept" resultType="map">
+    select d.department_name, count(*) as cnt
+	from hr.employees e
+	join hr.departments d
+	on e.department_id = d.department_id
+	group by d.department_name
+  </select>
 </mapper>

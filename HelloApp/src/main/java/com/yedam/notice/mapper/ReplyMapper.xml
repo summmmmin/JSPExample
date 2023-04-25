@@ -19,4 +19,12 @@
   <delete id="deleteReply" parameterType="int">
     delete from tbl_reply where reply_id=#{replyId}
   </delete>
+  
+  <update id="updateReply" parameterType="reply">
+    update tbl_reply set reply=#{reply} where reply_id = #{replyId}
+  </update>
+  
+  <select id="searchReply" parameterType="int">
+    select * from tbl_reply where reply_id = #{replyId}
+  </select>
 </mapper>

@@ -71,6 +71,16 @@
   </tbody>
 </table>
 
+<table style="display: none;">
+  <tbody>
+    <tr class="template">
+      <td>10</td>
+      <td><input type="text" class="reply"></td>
+      <td>user01</td>
+      <td><button>수정</button></td>
+    </tr>
+  </tbody>
+</table>
 
 <script>
   let showFields = ['replyId', 'reply', 'replyWriter']
@@ -86,31 +96,97 @@
 		  tlist.append(tr);
 	  }
   }
-
+	let check = 0;
   // tr생성하는 함수
   function makeTrFunc(reply={}){
     let tr = document.createElement('tr');
-		for(let prop of showFields){
-		  let td = document.createElement('td');
-		  td.innerText = reply[prop];
-		  tr.append(td);			  
-	  }
+    tr.id = reply.replyId;	//tr에 속성추가:댓글번호
+    
+    // this 
+    // 1)object안에서 사용되면 그 object자체를 가리킴
+    //   let obj={name:"hong", age:20, showInfo:function(){this.age + this.name}}
+    // 2)fuction 선언 안에서 this는 window 전역객체. <->지역객체
+    //	 function add(){console.log(this)}
+    // 3)event 안에서 사용되는 this는 이벤트를 받는 대상
+    //	 document.getElementById('tlist').addEventListener('click', function(){console.log(this)})
+    
+    // tr 클릭이벤트
+    tr.addEventListener('dblclick', function(e){
+    	console.log(this);	//tr
+    	if(this.children[2].innerText != '${id}'){	//작성자가 아닐경우 수정불가
+    		return
+    	}
+    	console.log(template)
+    	let template = document.querySelector('.template').cloneNode(true);		// template 복제
+    	console.log(template);
+    	//template.children[0].innerText = reply.replyId;
+    	//template.children[1].children[0].value = reply.reply;
+    	//template.children[2].innerText = reply.replyWriter;
+    	template.querySelector('td:nth-of-type(1)').innerText = reply.replyId;	
+    	template.querySelector('td:nth-of-type(2)>input').value = reply.reply;
+    	template.querySelector('td:nth-of-type(3)').innerText = reply.replyWriter;
+    	template.querySelector('button').addEventListener('click', function(e){
+    		// Ajax 호출
+    		let replyId = reply.replyId;
+    		let replyCon = this.parentElement.parentElement.children[1].children[0].value;
+    		console.log(replyId, replyCon);
+    		
+    		let xhtp = new XMLHttpRequest();
+    		xhtp.open('post', 'modifyReply.do');
+    		xhtp.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+    		xhtp.send('rid='+replyId+'&reply='+replyCon);
+    		xhtp.onload = function(){
+    			let result = JSON.parse(xhtp.response);
+    			if(result.retCode == 'Success'){
+    				// 화면변경
+    				alert('수정완료')
+    				let tr = makeTrFunc(result.data);
+    			//	oldtr = document.querySelector('.template')
+    				tlist.replaceChild(tr,template);
+    			} else if(result.retCode =='Fail'){
+    				alert('처리 중 에러')
+    			} else{
+    				alert('알 수 없는 반환값')
+    			}
+    		}
+    	})
+    	//화면전환
+    	document.getElementById('tlist').replaceChild(template, tr);
+    })
+    //td생성
+    for(let prop of showFields){
+      let td = document.createElement('td');
+      td.innerText = reply[prop];
+      tr.append(td);	
+      if(reply['replyWriter'] == '${id}'){
+		check = 1
+      }else{
+    	  check = 0
+      }
+	}
     //삭제버튼
     let btn = document.createElement('button');
     btn.addEventListener('click', function(e){
-      let delNo = btn.parentElement.parentElement.children[0].innerText;
+      let writer = btn.parentElement.previousElementSibling.innerText;	//버튼의 부모요소의 형제=작성자
+      console.log(writer, '${id}')	//작성자, 로그인아이디
+      if(writer != '${id}'){
+    	  alert('권한이 없습니다.')
+    	  return;
+      }
+      console.log(btn.parentElement.parentElement);	
+      let delNo = btn.parentElement.parentElement.id;	//tr의 id속성을 삭제번호로
       // db에서 삭제 후 화면에서 삭제
       let xhtp = new XMLHttpRequest();
       xhtp.open('post', 'removeReply.do')
       xhtp.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
-      xhtp.send('rid='+delNo);
-      
+      xhtp.send('rid='+delNo);	//요청방식이 post일 때 parameter를 send()에 포함
+      console.log(delNo);
       xhtp.onload = function(){
-        let result = xhtp.response;
+        let result = JSON.parse(xhtp.response);
         if(result.retCode == 'Success'){
           //화면에서 지우기
-          let tr = makeTrFunc(result.data);
-          tlist.remove(tr);
+          alert('삭제완료')
+          btn.parentElement.parentElement.remove();
         }else if(result.retCode == 'Fail'){
           alert('처리 중 에러 발생')
         }else{
@@ -118,10 +194,14 @@
         }
       }
     })
+
     btn.innerText = '삭제'
     let td = document.createElement('td');
+	if(check == 1){
     td.append(btn);
     tr.append(td);
+		
+	}
 
     return tr;  //생성한 tr 반환
   }
@@ -130,12 +210,21 @@
   document.querySelector("#addBtn").addEventListener('click', addReplyFnc);
   function addReplyFnc(e){
 	  //로그인시댓글작성가능
-	  
+	  let id = document.querySelector('#content span').innerText;
+	  if(id == null || id ==''){
+		  alert('로그인하세요')
+		  location.href = 'loginForm.do'
+		  return
+	  }
 	  
 	  console.log('click', e.target);	//버튼
 	  console.log('reply', document.querySelector("#reply").value);
 	  console.log('id', "${id}");
 	  let reply = document.querySelector("#reply").value;
+	  if(reply == null || reply == ''){
+		  alert('입력하세요')
+		  return
+	  }
 	  
 	  //  Ajax 호출
 	  let xhtp = new XMLHttpRequest();
@@ -149,6 +238,9 @@
         // 값을 활용해서 tr생성
         let tr = makeTrFunc(result.data);
         tlist.append(tr)
+        
+        document.getElementById("reply").value='';
+        document.getElementById("reply").focus();
       } else if(result.retCode == 'Fail'){
         alert('처리중 에러')
       }
