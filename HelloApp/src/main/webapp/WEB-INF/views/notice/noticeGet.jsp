@@ -112,11 +112,12 @@
     
     // tr 클릭이벤트
     tr.addEventListener('dblclick', function(e){
-    	console.log(this);	//tr
+    	console.log(this.id);	//tr
+    	
     	if(this.children[2].innerText != '${id}'){	//작성자가 아닐경우 수정불가
     		return
     	}
-    	console.log(template)
+    	
     	let template = document.querySelector('.template').cloneNode(true);		// template 복제
     	console.log(template);
     	//template.children[0].innerText = reply.replyId;
@@ -152,6 +153,7 @@
     	})
     	//화면전환
     	document.getElementById('tlist').replaceChild(template, tr);
+
     })
     //td생성
     for(let prop of showFields){
