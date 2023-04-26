@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,7 +35,7 @@
                 center: 'title',
                 right: 'dayGridMonth,timeGridWeek,timeGridDay'
               },
-              initialDate: '2023-01-12',
+              initialDate: new Date(),
               navLinks: true, // can click day/week names to navigate views
               selectable: true,
               selectMirror: true,
@@ -83,30 +83,27 @@
             // end..
 	})
 	.catch(error => console.log(error))
-        })
     
   });
 
 </script>
 <style>
+body {
+	margin: 40px 10px;
+	padding: 0;
+	font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+	font-size: 14px;
+}
 
-  body {
-    margin: 40px 10px;
-    padding: 0;
-    font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-    font-size: 14px;
-  }
-
-  #calendar {
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-
+#calendar {
+	max-width: 1100px;
+	margin: 0 auto;
+}
 </style>
 </head>
 <body>
 
-  <div id='calendar'></div>
+	<div id='calendar'></div>
 
 </body>
 </html>
