@@ -26,7 +26,7 @@ public class GetProductControl implements Control {
 		req.setAttribute("productInfo", vo);
 		System.out.println(vo.getProductImg());
 		
-		return "WEB-INF/views/prod/prodMain.jsp";
+		return "prod/prodMain.tiles";
 	}
 
 }
