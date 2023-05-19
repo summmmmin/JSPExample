@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #show {
+        display: inline-block;
+        width: 480px;
+        height: 350px;
+        background-color: yellowgreen;
+      }
+      #show span {
+        display: inline-block;
+        width: 110px;
+        height: 30px;
+        background-color: beige;
+        text-align: center;
+        margin-top: 5px;
+        margin-left: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <h3>5월 달력</h3>
+    <button onclick = "start()">시작</button>
+    <br>
+    <input type="text" id="delword" onchange="input()" />
+    <button onclick="delbtn()">검색삭제</button>
+    <br />
+    <span id="time"></span>
+    <br>
+    <div id="show"></div>
+
+    <!-- <script src="calendarFun.js"></script> -->
+    <!-- <script src="calendarObj.js"></script> -->
+    <script>
+      let words = `Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vitae cupiditate laudantium dolore nemo voluptatem necessitatibus, labore, similique dolorum eveniet dolores nesciunt delectus et esse dolorem. Debitis exercitationem alias perspiciatis facere?`;
+      //let words = `a b c d e f g h i j k l m n o p q r s t u v w x y z`
+      //split(구분자) => 배열
+      let wordAry = words.split(" ");
+      
+      function wordshow(){
+        for (let i of wordAry) {
+          let span = document.createElement("span");
+          span.innerText = i;
+          show.append(span);
+        }
+      }
+      function delbtn() {
+        let targetElem = document.querySelectorAll("#show span"); //nodelist반환
+        for (let i of targetElem) {
+          if (i.innerText == delword.value) {
+            i.remove();
+            document.querySelector("#delword").value = "";
+            arr.push(i.innerText);
+            return;
+          }
+        }
+        alert("찾는 단어가 없습니다.");
+        document.querySelector("#delword").value = "";
+      }
+      let arr = [];
+      function input() {
+        let targetElem = document.querySelectorAll("#show span"); //nodelist반환
+        for (let i of targetElem) {
+          if (i.innerText == delword.value) {
+            i.remove();
+            document.querySelector("#delword").value = "";
+            arr.push(i.innerText);
+            return;
+          }
+        }
+        alert("찾는 단어가 없습니다.");
+        document.querySelector("#delword").value = "";
+      }
+      //삭제이벤트
+      //초기값으로 60이라는 값
+      function start(){
+        arr=[]
+        show.innerText = "";
+        wordshow();
+        let initSecs = 60;
+        let job = setInterval(function () {
+          //console.log(initSecs--)
+          time.innerText = '남은시간: '+initSecs--
+          if(arr.length == wordAry.length){
+              alert('미션성공') 
+              clearInterval(job) 
+          }
+          if(initSecs < 0){
+            alert('미션실패')
+            clearInterval(job)
+          }
+          
+        }, 1000);
+
+      }
+      //alert(성공);
+    </script>
+  </body>
+</html>

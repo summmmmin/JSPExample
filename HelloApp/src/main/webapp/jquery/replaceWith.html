@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery Element Replace</title>
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+	<script>
+		$(function() {
+			$("button").on("click", function() {
+				// class가 "item"인 모든 요소를 id가 "firstItme"인 요소로 대체함.
+				$(".item").replaceWith($("<li>새로운 아이템</li>"));
+        // $(".item").replaceWith($("#firstItem").clone());
+        // $(".item").replaceWith($("#firstItem"));
+			});
+		});
+	</script>
+</head>
+
+<body>
+
+	<h1>.replaceWith() 메소드</h1>
+	<ul>
+		<li class="item" id="firstItem">첫 번째 아이템이에요!</li>
+		<li class="item" id="secondItem">두 번째 아이템이에요!</li>
+		<li class="item" id="thirdItem">세 번째 아이템이에요!</li>
+	</ul>
+	<button>아이템 대체</button>
+	
+</body>
+
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>webapp/jquery/index.html</title>
+    <!-- 다운로드 -->
+    <!-- <script src="../js/jquery-3.7.0.min.js"></script> -->
+    <!-- CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+
+    <script src="basic1.js"></script>
+    <script src="fetchMember.js"></script>
+    <style>
+      
+    </style>
+  </head>
+
+  <body>
+    <ul id="list">
+      <li>Apple</li>
+      <li>Banana</li>
+    </ul>
+
+    <table>
+      <tr>
+        <th>아이디</th>
+        <td><input type="text" id="id" /></td>
+      </tr>
+      <tr>
+        <th>firstName</th>
+        <td><input type="text" id="fname" /></td>
+      </tr>
+      <tr>
+        <th>lastName</th>
+        <td><input type="text" id="lname" /></td>
+      </tr>
+      <tr>
+        <th>Gender</th>
+        <td>
+          <select id="gender">
+            <option value="Male">Men</option>
+            <option value="Female">Women</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td><button>등록</button>
+        <button>변경</button>
+        <button>선택된tr이동</button></td>
+      </tr>
+    </table>
+
+    <div id="show">
+      <!-- (p>span+button{Click})*3 -->
+      <p><span>Hello</span><button>Click</button></p>
+      <p><span>World</span><button>Click</button></p>
+      <p><span>Good</span><button>Click</button></p>
+    </div>
+
+    <div id="show2">
+      <p><span>Hello</span><button>Click</button></p>
+      <p><span>World</span><button>Click</button></p>
+      <p><span>Good</span><button>Click</button></p>
+      <p>He<b>llo</b></p>
+    </div>
+
+    <table style="display:none;">
+      <tr class="template">
+        <td>1</td>
+        <td>Noland</td>
+        <td>Doogan</td>
+        <td>Male</td>
+        <td><button>삭제</button></td>
+      </tr>
+    </table>
+
+    <table border="1" id="show3">
+      <tr>
+        <td>TD #0</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>TD #2</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>TD#5</td>
+      </tr>
+    </table>
+  </body>
+</html>

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>detach demo</title>
+  <style>
+  p {
+    background: yellow;
+    margin: 6px 0;
+  }
+  p.off {
+    background: black;
+  }
+  </style>
+  <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+</head>
+<body>
+ 
+<p>Hello</p>
+how are
+<p>you?</p>
+<button>Attach/detach paragraphs</button>
+ 
+<script>
+$( "p" ).on( "click", function() {
+  $( this ).toggleClass( "off" );
+  console.log($( this ))
+});
+var p;
+$( "button" ).on( "click", function() {
+  if ( p ) {
+    p.appendTo( "body" );
+    p = null;
+    console.log($( "p" ))
+  } else {
+    p = $( "p" ).remove();
+    console.log($( "p" ))
+  }
+});
+</script>
+ 
+</body>
+</html>

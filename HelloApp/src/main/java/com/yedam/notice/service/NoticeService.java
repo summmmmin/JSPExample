@@ -12,4 +12,7 @@ public interface NoticeService {
 	public boolean removeNotice(int noticeId);
 	public NoticeVO getNotice(int noticeId);
 	public int totalCount();
+	
+	// json
+	public List<NoticeVO> noticeListJson();
 }

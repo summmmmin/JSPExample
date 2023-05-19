@@ -45,4 +45,10 @@ public class NoticeServiceImpl implements NoticeService{
 	public int totalCount() {
 		return mapper.getCount();
 	}
+
+	@Override
+	public List<NoticeVO> noticeListJson() {
+		// TODO Auto-generated method stub
+		return mapper.noticeList();
+	}
 }

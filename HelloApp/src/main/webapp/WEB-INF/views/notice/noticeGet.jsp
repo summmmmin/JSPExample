@@ -227,7 +227,7 @@
 		  alert('입력하세요')
 		  return
 	  }
-	  
+
 	  //  Ajax 호출
 	  let xhtp = new XMLHttpRequest();
 	  xhtp.open('post', 'addReply.do');
