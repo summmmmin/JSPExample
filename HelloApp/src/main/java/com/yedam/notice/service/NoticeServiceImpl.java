@@ -30,6 +30,11 @@ public class NoticeServiceImpl implements NoticeService{
 	}
 
 	@Override
+	public boolean modifyNoticeFile(NoticeVO vo) {
+		return mapper.updateNoticeFile(vo) == 1;
+	}
+	
+	@Override
 	public boolean removeNotice(int noticeId) {
 		return mapper.deleteNotice(noticeId) == 1;
 	}

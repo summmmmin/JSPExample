@@ -25,6 +25,7 @@ import com.yedam.notice.control.GetNoticeControl;
 import com.yedam.notice.control.GetNoticeJsonControl;
 import com.yedam.notice.control.ModifyNoticeControl;
 import com.yedam.notice.control.ModifyNoticeFileControl;
+import com.yedam.notice.control.ModifyNoticeJsonControl;
 import com.yedam.notice.control.ModifyReplyControl;
 import com.yedam.notice.control.NoticeAddForm;
 import com.yedam.notice.control.NoticeDelJsonControl;
@@ -58,7 +59,7 @@ public class FrontController extends HttpServlet{
 		map.put("/deleteNotice.do", new DeleteNoticeControl());
 		map.put("/noticeDelJson.do", new NoticeDelJsonControl());
 		map.put("/modifyNoticeFile.do", new ModifyNoticeFileControl());
-		
+		map.put("/modifyNoticeJson.do", new ModifyNoticeJsonControl());
 		//회원관리
 		map.put("/loginForm.do", new LoginFormControl());
 		map.put("/login.do", new LoginControl());

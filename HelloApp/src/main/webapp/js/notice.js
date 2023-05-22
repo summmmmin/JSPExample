@@ -72,10 +72,10 @@ $(document).ready(function () {
   })
 
   // 파일 선택 시 change 이벤트
-  $('#attachFile').on('change', function(){
+  $('#attachFile').on('change', function(e){
     // 게시글 번호, 파일 => 서버로 전송 : noticeId 기준으로 attach 수정
     console.log(e.target.files[0]);
-    
+
     let data = new FormData();
     data.append('nid', $('.nid').text());
     data.append('nfile', e.target.files[0]);
@@ -88,12 +88,41 @@ $(document).ready(function () {
       contentType: false,
       processData: false,
       error: function(){
-
+        console.error(err);
       },
-      success: function(){
-
+      success: function(result){
+        console.log(result);
+        $('img.nAttach').attr('src','images/'+result.attachFile);
       }
     });
+  })
+
+  // 모달창의 수정버튼 클릭
+  $('div.modal-body button').on('click', function(e){
+    let id = $('div.modal-body td.nid').text();
+    let title = $('div.modal-body td.nTitle').text();
+    let subject = $('div.modal-body textarea.nSubject').val();
+    
+    $.ajax({
+      url: 'modifyNoticeJson.do',
+      method: 'post',
+      data: {id: id, title: title, subject: subject},
+      error: function(){
+
+      },
+      success: function(result){
+        if(result.retCode == 'Success'){
+          console.log(result.retVal);
+          $('#tr_'+result.retVal.noticeId).find('img').attr('src','images/'+result.retVal.attachFile);
+          $('#tr_'+result.retVal.noticeId+' td:eq(1)').text(result.retVal.noticeTitle);
+          $('#myModal').hide();
+          
+          console.log($('#tr_'+result.retVal.noticeId+' td:eq(1)').text());
+        } else if(result.retCode == 'Fail'){
+          alert('error 발생')
+        }
+      }
+    })
   })
 
   // 등록버튼클릭
@@ -122,6 +151,7 @@ $(document).ready(function () {
                                        $('<td />').text(data.retVal.noticeWriter),
                                        $('<td />').append($('<img>').css('width', '50px').attr('src','images/'+data.retVal.attachFile)) ,
                                        $('<td />').append($('<button />').text('삭제').on('click',deleteRow)))
+          tr.attr('id', 'tr_'+data.retVal.noticeId);
           $('#noticeList').prepend(tr);   
           $('form')[0].reset(); // 폼의 reset 이벤트 호출                       
         }else if(data.retCode == 'Fail'){
@@ -163,6 +193,7 @@ $(document).ready(function () {
                                      $('<td />').text(notice.noticeWriter),
                                      $('<td />').append($('<img>').css('width', '50px').attr('src','images/'+notice.attachFile)) ,
                                      $('<td />').append($('<button />').text('삭제').on('click',deleteRow)))
+        tr.attr('id', 'tr_'+notice.noticeId);
         $('#noticeList').append(tr);
       });
     }

@@ -3,7 +3,7 @@ pageEncoding="UTF-8"%>
 
 <link rel="stylesheet" href="css/modal.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-<script src="js/notice.js"></script>
+<script src="js/noticeAsync.js"></script>
 <h3>공지사항등록 페이지</h3>
 
 <form action="addNotice.do" method="post" enctype="multipart/form-data">
