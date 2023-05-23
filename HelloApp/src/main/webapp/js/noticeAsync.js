@@ -14,7 +14,7 @@ async function loadData(){
       td.innerText = item[prop];
       tr.append(td);
     }
-    document.getElementById('noticeList').append(tr);
+    document.getElementByIds('noticeList').append(tr);
   });
 }
 
