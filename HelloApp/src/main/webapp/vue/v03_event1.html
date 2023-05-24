@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>v03_event1.html</title>
+  <script src="https://unpkg.com/vue@2"></script>
+</head>
+<body>
+  <div class="app">
+    <label>이름</label><input v-model="name">
+    <label>성적</label><input v-model="score">
+    <button v-on:click="saveScore()">저장</button>
+    <button v-on:click="orderName">이름순정렬</button>
+
+    <h3>학생목록</h3>
+    <ul>
+      <li v-for="item in studentList">
+        {{item.name}} - {{item.score}}
+        <button v-on:click="delScore">삭제</button>
+      </li>
+    </ul>
+  </div>
+  <script>
+    new Vue({
+      el: '.app',
+      data: {
+        studentList: [],
+        name: '',
+        score: 80
+      },
+      methods: {
+        saveScore(){
+          if(this.name != '' && this.score!=''){
+            this.studentList.push({"name":this.name, "score":this.score})
+            this.name=''
+            this.score=''
+          }else{
+            alert('입력')
+          }
+        },
+        delScore(){
+          console.log(event.target.parentElement.id)
+          console.log(event.target.parentElement.remove())
+        },
+        orderName(){
+          this.studentList.sort(function(a,b){
+            return a.name.localeCompare(b.name)
+          })
+        }
+      }
+    })
+  </script>
+</body>
+</html>
