@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>v05_component1.html</title>
+  <script src="https://unpkg.com/vue@2"></script>
+</head>
+<body>
+  <div id="app">
+    <p>현재 참여자 수 : {{count}}명</p>
+    <input-component v-on:up-count="countUp"></input-component>
+  </div>
+
+  <script>
+    const InputComponent = {
+      template:`
+      <div>
+        <div class="userAdd">
+          <div class="nameInfo">
+            <label for="userName">이름</label>
+            <input id="userName" v-model="userName">
+          </div>
+          <div class="ageInfo">
+            <label for="userAge">나이</label>
+            <input id="userAge" v-model="userAge">
+          </div>
+          <div class="deptInfo">
+            <label for="userDept">소속</label>
+            <select id="userDept" v-model="userDept">
+              <option>학생</option>
+              <option>교사</option>
+            </select>
+          </div>
+          <div class="inputInfo">
+            <h2>등록 예정자 정보</h2>
+            <p> 이름: {{userName}}</p>
+            <p> 나이: {{userAge}}</p>
+            <p> 소속: {{userDept}}</p>
+          </div>
+          <button v-on:click="insertUsers">등록</button>
+        </div>
+        <div class="userInfo">
+          <print-component v-for="user in userList" v-bind:userInfo="user"></print-component>
+        </div>
+      </div>
+      `,
+      data: function(){
+        return{
+          userName: '',
+          userAge: 0,
+          userDept: '',
+          userList: []
+        }
+      },
+      methods:{
+        insertUsers: function(){
+          this.userList.push(
+            {name:this.userName, 
+              age: this.userAge,
+              dept: this.userDept
+            })
+            this.$emit('up-count');
+        }
+      },
+      components: {
+        'print-component': {
+          template: `
+          <div>
+            <p>이름: {{userInfo.name}}, 나이: {{userInfo.age}}, 소속: {{userInfo.dept}} </p>
+          </div>
+          `,
+          props: ['userInfo']
+        }
+      }
+
+    }
+    new Vue({
+      el:'#app',
+      data: {
+        count: 0
+      },
+      methods: {
+        countUp: function(){
+          this.count++;
+        }
+      },
+      components: {
+        'input-component': InputComponent
+      }
+    })
+  </script>
+</body>
+</html>
