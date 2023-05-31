@@ -10,10 +10,10 @@
 <body>
   <div id="app">
     <h3>간단한 게시판</h3>
-    <board-list v-if="isList" v-on:board-write="boardWrite" v-bind:object="boardArray" v-on:board-read="boardRead"></board-list>
+    <board-list v-if="isList" v-on:board-write="boardWrite" v-bind:object="boardArray" v-on:board-read="boardRead" v-on:board-delete="boardDelete"></board-list>
     <board-read v-if="isRead" v-on:board-list="boardList"
       v-bind:object="boardInfo"></board-read>
-    <board-writer v-if="isWrite" v-on:board-list="boardList"></board-writer>
+    <board-write v-if="isWrite" v-on:board-list="boardList" v-on:board-write="boardSave"></board-write>
   </div>
 
   <script>
@@ -34,7 +34,7 @@
               <td>{{item.no}}</td>
               <td v-on:click="boardRead(item)">{{item.title}}</td>
               <td>{{item.view}}</td>
-              <td><button>삭제</button></td>
+              <td><button v-on:click="boardDelete(item.no)">삭제</button></td>
             </tr>
           </tbody>
         </table>
@@ -47,6 +47,9 @@
         },
         boardRead: function(board){
           this.$emit('board-read', board);
+        },
+        boardDelete: function(no){
+          this.$emit('board-delete', no);
         }
       },
       props: ['object']
@@ -57,10 +60,10 @@
         <table border="1">
           <tr>
             <th>글제목</th>
-            <td></td>
+            <td>{{object.title}}</td>
           </tr>
           <tr>
-            <td colspan="2"></td>
+            <td colspan="2">{{object.content}}</td>
           </tr>
         </table>
         <button v-on:click="boardList">목록</button>
@@ -68,9 +71,6 @@
       `,
       props: ['object'],
       methods: {
-        boardSave: function(){
-          this.$emit('board-list');
-        },
         boardList: function(){
           this.$emit('board-list');
         }
@@ -102,13 +102,14 @@
       },
       methods: {
         boardSave: function(){
-
+          this.$emit('board-write', this.title, this.content);
         },
         boardList: function(){
-          
+          this.$emit('board-list');
         }
       }
     }
+
     var vm = new Vue({
       el: '#app',
       data: {
@@ -135,11 +136,33 @@
 
           // 상세화면에 출력
           this.boardInfo = board;
+
+          // 조회수 증가
+          for(let i=0; i<this.boardArray.length; i++){
+            if(this.boardArray[i].no == board.no){
+              this.boardArray[i].view++;
+            }
+          }
         },
         boardWrite: function(){
           this.isList = false;
           this.isRead = false;
           this.isWrite = true;
+        },
+        boardDelete: function(no){
+          this.boardArray.forEach(function(board, idx, ary){
+            if(board.no == no){
+              ary.splice(idx, 1);
+            }
+          })
+        },
+        boardSave: function(title,content){
+          let no = 1;
+          let idx = this.boardArray.length -1;
+          no = parseInt(this.boardArray[idx].no)+1;
+
+          this.boardArray.push({no: no, title: title, content: content, view: 0});
+          this.boardList();
         }
       },
       components: {

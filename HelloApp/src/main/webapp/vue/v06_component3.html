@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>v06_component3.html</title>
+    <style>
+      .buttonstyle {
+        width: 120px;
+        height: 30px;
+        text-align: center;
+      }
+    </style>
+    <script src="https://unpkg.com/vue@2"></script>
+  </head>
+  <body>
+    <div id="app">
+      <parent-component v-bind:buttons="buttons"></parent-component>
+    </div>
+
+    <script>
+      const ChildComponent = {
+        template: `
+            <div>
+              <button class="buttonstyle" v-on:click="clickEvent"
+                v-bind:data-lang="buttonInfo.value">
+                {{buttonInfo.text}}
+              </button>
+            </div>
+            `,
+        props: ["buttonInfo"],
+        methods: {
+          clickEvent: function () {
+            this.$emit(
+              "timeclick",
+              event.target.innerText,
+              event.target.dataset.lang
+            );
+          },
+        },
+      };
+      const ParentComponent = {
+        template: `
+          <div>
+            <child-component v-for="btn in buttons" v-bind:button-info="btn"
+              v-on:timeclick="timeClickEvent"
+            ></child-component>
+            <hr>
+            <div>{{msg}}</div>
+          </div>        
+        `,
+        props: ["buttons"],
+        data: function () {
+          return {
+            msg: "",
+          };
+        },
+        methods: {
+          timeClickEvent: function (k, v, h) {
+            this.msg = k + "," + v + "," + h;
+          },
+        },
+        components: {
+          "child-component": ChildComponent,
+        },
+      };
+      new Vue({
+        el: "#app",
+        data: {
+          buttons: [
+            { text: "hello", value: "영어" },
+            { text: "xinchao", value: "베트남어" },
+            { text: "你好", value: "중국어" },
+            { text: "안녕", value: "한국어" },
+          ],
+        },
+        components: {
+          "parent-component": ParentComponent,
+        },
+      });
+    </script>
+  </body>
+</html>

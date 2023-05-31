@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://unpkg.com/vue@2"></script>
+</head>
+<body>
+  <div id="app">
+    <h3>TO DO LIST</h1>
+    <list-component></list-component>
+    <input-component></input-component>
+  </div>
+  
+  <script>
+    const InputComponent = {
+      template: `
+      <div>
+      <div v-for="todo in todos">
+        <label>
+          <input type="checkbox" v-model="todo.done">
+          <span v-bind:class="{'done-style': todo.done}">{{todo.text}} (완료일: {{todo.doneDate}})</span>
+        </label>
+      </div>
+      <input type="text" v-model.trim="addText" v-on:keyup.enter="addToDo" placeholder="할일">
+      <input type="text" v-model="addDate" v-on:keyup.enter="addToDo" placeholder="완료일(yyyymmdd형식)">
+      <p>
+        <button v-on:click="cleanToDo">처리완료삭제</button>
+        <button v-on:click="sortDate">완료일순정렬</button>
+      </p>
+      <p>{{remaining}} / {{todos.length}}</p>
+      </div>
+      `,
+      data: function(){
+        return {
+          addText: "",
+          addDate: "",
+        }
+      },
+      methods:{
+        insertTodo: function(){
+          this.$emit('input-component', this.todo, this.date);
+        },
+        deleteTodo: function(){
+
+        },
+        orderDate: function(){
+
+        }
+      }
+    }
+    new Vue({
+      el: '#app',
+      data: {
+        todoList: [
+          {todo: 'bread', date: "20230115"},
+          {todo: 'coffee', date: "20230201"},
+        ]
+      },
+      methods:{
+        insertTodo: function(todo, date){
+          this.todoList.push({todo: todo, date: date})
+          console.log(this.todoList)
+        }
+      },
+      components: {
+        'input-component': InputComponent
+      }
+    })
+  </script>
+</body>
+</html>
